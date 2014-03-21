@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "fire"
   spec.version       = Fire::VERSION
   spec.authors       = ["Antonio Scandurra"]
-  spec.email         = ["as_cii@hotmail.it"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.email         = ["as-cii@outlook.com"]
+  spec.description   = %q{Fire your engines.}
+  spec.summary       = spec.description
+  spec.homepage      = "https://github.com/as-cii/fire"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
