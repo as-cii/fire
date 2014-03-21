@@ -1,10 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'yaml'
+require 'fire'
 
-config = YAML.load_file(".connect")
-application1 = config["app1"]
-application2 = config["app2"]
-
-`#{application1}`
-`#{application2}`
+Fire::Launcher.new.start
