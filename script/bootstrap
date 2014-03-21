@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "Installing required gems..."
+bundle install --path vendor/gems
