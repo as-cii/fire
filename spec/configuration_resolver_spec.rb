@@ -20,6 +20,12 @@ describe Fire::ConfigurationResolver do
     end
   end
 
+  it 'stops searching configuration when root is reached' do
+    File.stub(:dirname, '/') do
+      -> { subject.processes }.must_raise(Fire::ConfigurationNotFound)
+    end
+  end
+
   def return_true_on_parent
     -> (path) do
       path.start_with?('../../../')
