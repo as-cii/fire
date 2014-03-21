@@ -3,7 +3,7 @@ require 'fire/configuration_resolver'
 
 module Fire
   class Launcher
-    def initialize(config_resolver, process_launcher)
+    def initialize(config_resolver = ConfigurationResolver.new, process_launcher)
       @config_resolver = config_resolver
       @process_launcher = process_launcher
     end
