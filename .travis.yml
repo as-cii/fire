@@ -1,0 +1,7 @@
+language: ruby
+rvm:
+  - 2.0.0
+env:
+  - TEST_SUITE=features
+  - TEST_SUITE=test
+script: "bundle exec rake $TEST_SUITE"
