@@ -23,3 +23,11 @@ Feature: Application launching
     Then the exit status should be 0
      And a file named "x" should exist
      And a file named "y" should exist
+
+  Scenario: User has no configuration
+    When I run `fire`
+    Then the exit status should be 1
+     And the output should contain:
+     """
+     No configuration found. Are you sure you have created a .fire file?
+     """

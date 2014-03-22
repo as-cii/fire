@@ -21,6 +21,8 @@ describe Fire::ConfigurationResolver do
   end
 
   it 'stops searching configuration when root is reached' do
+    subject = Fire::ConfigurationResolver.new(stop_at: '/')
+
     File.stub(:dirname, '/') do
       -> { subject.processes }.must_raise(Fire::ConfigurationNotFound)
     end
