@@ -5,3 +5,5 @@ env:
   - TEST_SUITE=features
   - TEST_SUITE=test
 script: "bundle exec rake $TEST_SUITE"
+notifications:
+  email: false
