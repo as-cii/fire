@@ -10,8 +10,13 @@ module Fire
     end
 
     def start
-      @config_resolver.processes.each do |process|
-        @process_launcher.launch(process)
+      begin
+        @config_resolver.processes.each do |process|
+          @process_launcher.launch(process)
+        end
+      rescue ConfigurationNotFound
+        $stderr.puts 'No configuration found. Are you sure you have created a .fire file?'
+        exit(1)
       end
     end
   end
