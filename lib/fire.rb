@@ -19,5 +19,11 @@ module Fire
         exit(1)
       end
     end
+
+    def stop
+      @config_resolver.active_processes.each do |pid|
+        @process_launcher.stop(pid)
+      end
+    end
   end
 end
