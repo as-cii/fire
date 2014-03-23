@@ -15,7 +15,9 @@ module Styoe
       raise ConfigurationNotFound if stop?(path)
       return active_processes("../#{path}") unless File.exist?(path)
 
-      parse_values(path)
+      values = parse_values(path)
+      File.delete(path)
+      values
     end
 
     def processes(path = DOT_FILE)

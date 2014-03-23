@@ -24,16 +24,24 @@ describe Styoe::ConfigurationResolver do
     expect { subject.processes }.to raise_error(Styoe::ConfigurationNotFound)
   end
 
-  it 'searches active processes' do
+  it 'searches active processes and deletes related pidfile' do
     allow_file_to_exist_and_return("#{Styoe::PID_FILE}", sample_pids)
+    allow(File).to receive(:delete)
 
-    expect(subject.active_processes).to eq([ 1, 2 ])
+    active_processes = subject.active_processes
+
+    expect(active_processes).to eq([ 1, 2 ])
+    expect(File).to have_received(:delete).with("#{Styoe::PID_FILE}")
   end
 
   it 'searches active processes recursively' do
     allow_file_to_exist_and_return("../../#{Styoe::PID_FILE}", sample_pids)
+    allow(File).to receive(:delete)
 
-    expect(subject.active_processes).to eq([ 1, 2 ])
+    active_processes = subject.active_processes
+
+    expect(active_processes).to eq([ 1, 2 ])
+    expect(File).to have_received(:delete).with("../../#{Styoe::PID_FILE}")
   end
 
   it 'stops searching active processes when root is reached' do

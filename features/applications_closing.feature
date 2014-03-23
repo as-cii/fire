@@ -17,3 +17,4 @@ Feature: Applications closing
      When I successfully run `styoe`
       And I successfully run `styoe --stop`
      Then a file named "closed" should exist
+      And a file named ".engines.pids" should not exist
