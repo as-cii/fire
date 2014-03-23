@@ -1,8 +1,8 @@
 require 'fire'
 
 describe Fire::Launcher do
-  let(:configuration_resolver) { double }
-  let(:process_launcher)       { double }
+  let(:configuration_resolver) { instance_double(Fire::ConfigurationResolver) }
+  let(:process_launcher)       { instance_double(Fire::ProcessLauncher) }
   let(:processes)              { [ "app1", "app2", "app3" ] }
   let(:pids)                   { [ 1, 2, 3 ] }
   let(:running_processes)      { Hash[*processes.zip(pids).flatten] }
@@ -10,8 +10,8 @@ describe Fire::Launcher do
   subject { Fire::Launcher.new(configuration_resolver, process_launcher) }
 
   it "launches configuration processes and remembers open pids" do
-    configuration_resolver.stub(:processes).and_return(processes)
-    configuration_resolver.stub(:dump_pids)
+    allow(configuration_resolver).to receive(:processes).and_return(processes)
+    allow(configuration_resolver).to receive(:dump_pids)
     stub_processes_launch
 
     subject.start
@@ -20,8 +20,8 @@ describe Fire::Launcher do
   end
 
   it 'stops active processes' do
-    configuration_resolver.stub(:active_processes).and_return(pids)
-    process_launcher.stub(:stop)
+    allow(configuration_resolver).to receive(:active_processes).and_return(pids)
+    allow(process_launcher).to receive(:stop)
 
     subject.stop
 
@@ -32,7 +32,7 @@ describe Fire::Launcher do
 
   def stub_processes_launch
     processes.zip(pids).each do |process, pid|
-      process_launcher.stub(:launch).with(process).and_return(pid)
+      allow(process_launcher).to receive(:launch).with(process).and_return(pid)
     end
   end
 
