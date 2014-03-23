@@ -1,9 +1,17 @@
 language: ruby
 rvm:
-  - 2.1
+- 2.1
 env:
-  - TEST_SUITE=features
-  - TEST_SUITE=spec
-script: "bundle exec rake $TEST_SUITE"
+- TEST_SUITE=features
+- TEST_SUITE=spec
+script: bundle exec rake $TEST_SUITE
 notifications:
   email: false
+deploy:
+  provider: rubygems
+  api_key:
+    secure: U+yl3U672sFSWS8TrF6u3Neewojr1ExV9KXVJSeZrnIyh16Dx0dYrPzxYG5rePKyAuJ5gq61zK2uYFH80Sr9tlj4qRiKDLoRC6mHLvcx+KVnTcknfM476UYMUOgtaUT9sbEoCx1ERKswZA6PsoCJrN8os4Qu8+eTZ7OmYnSS0Ng=
+  gem: styoe
+  on:
+    tags: true
+    repo: as-cii/styoe
