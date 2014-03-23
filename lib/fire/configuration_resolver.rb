@@ -25,6 +25,15 @@ module Fire
       parse_values(path)
     end
 
+    def dump_pids(pids, path = DOT_FILE)
+      raise ConfigurationNotFound if stop?(path)
+      return dump_pids(pids, "../#{path}") unless File.exist?(path)
+
+      file = File.open(path.gsub(DOT_FILE, PID_FILE), "w")
+      file.write(YAML.dump pids)
+      file.close
+    end
+
     private
 
     def parse_values(path)

@@ -44,6 +44,21 @@ describe Fire::ConfigurationResolver do
     expect { subject.active_processes }.to raise_error(Fire::ConfigurationNotFound)
   end
 
+  it "dumps active processes on the same path of #{Fire::DOT_FILE}" do
+    pid_file = double
+    pids = { application1: 1, application2: 2 }
+    File.stub(:exist?).and_return(false, false, true)
+    File.stub(:open).with("../../#{Fire::PID_FILE}", "w").and_return(pid_file)
+    YAML.stub(:dump).with(pids).and_return(sample_pids)
+    pid_file.stub(:write)
+    pid_file.stub(:close)
+
+    subject.dump_pids(pids)
+
+    expect(pid_file).to have_received(:write).with(sample_pids)
+    expect(pid_file).to have_received(:close)
+  end
+
   def sample_configuration
     <<-config
     application1: hello
