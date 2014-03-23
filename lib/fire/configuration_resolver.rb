@@ -1,11 +1,11 @@
 require 'yaml'
 
 module Fire
+  DOT_FILE = '.fire'
+
   class ConfigurationNotFound < StandardError; end
 
   class ConfigurationResolver
-    DOT_FILE = '.fire'
-
     def initialize(options = {})
       @stop_at = options[:stop_at] || '/'
     end
