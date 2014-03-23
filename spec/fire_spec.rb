@@ -1,26 +1,26 @@
-require 'minitest/autorun'
 require 'fire'
 
 describe Fire::Launcher do
-  let(:configuration_resolver) { Fire::ConfigurationResolver.new }
-  let(:process_launcher)       { Minitest::Mock.new }
-  let(:processes) { [ "app1", "app2", "app3" ] }
+  let(:configuration_resolver) { double }
+  let(:process_launcher)       { double }
+  let(:processes)              { [ "app1", "app2", "app3" ] }
 
   subject { Fire::Launcher.new(configuration_resolver, process_launcher) }
 
   it "launches configuration processes" do
-    stub_processes_launch
+    configuration_resolver.stub(:processes).and_return(processes)
+    process_launcher.stub(:launch)
 
-    configuration_resolver.stub(:processes, processes) do
-      subject.start
-    end
+    subject.start
 
-    process_launcher.verify
+    expect_processes_launched
   end
 
-  def stub_processes_launch
+  private
+
+  def expect_processes_launched
     processes.each do |process|
-      process_launcher.expect(:launch, nil, [process])
+      expect(process_launcher).to have_received(:launch).with(process)
     end
   end
 end
