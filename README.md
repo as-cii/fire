@@ -1,24 +1,39 @@
 # styoe (Start Your Engines!)
 
-TODO: Write a gem description
+Start Your Engines™.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'styoe'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install styoe
+```bash
+$ gem install styoe
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Create a `.engines` file on your home directory, and write a yaml-formatted file
+with the applications you would like to start:
+
+```yaml
+skype:        "/Applications/Skype.app/Contents/MacOS/Skype"
+sublime-text: "/Applications/Sublime Text.app/Contents/MacOS/Sublime Text"
+flint:        "/Applications/Flint.app/Contents/MacOS/Flint"
+```
+
+And then execute:
+
+```bash
+styoe
+```
+
+Your applications will be up and running in seconds. When you are done with them
+just execute:
+
+```bash
+styoe --stop
+```
+
+And they will disappear. For other great functionalities, please check
+[features](features).
 
 ## Contributing
 
