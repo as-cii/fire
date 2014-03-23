@@ -1,8 +1,8 @@
 require 'yaml'
 
-module Fire
-  DOT_FILE = '.fire'
-  PID_FILE = '.fire.pids'
+module Styoe
+  DOT_FILE = '.engines'
+  PID_FILE = '.engines.pids'
 
   class ConfigurationNotFound < StandardError; end
 

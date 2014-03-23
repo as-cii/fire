@@ -1,4 +1,4 @@
-module Fire
+module Styoe
   class ProcessLauncher
     def launch(process)
       Process.spawn(process)

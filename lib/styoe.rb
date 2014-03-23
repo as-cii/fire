@@ -1,8 +1,8 @@
-require 'fire/version'
-require 'fire/configuration_resolver'
-require 'fire/process_launcher'
+require 'styoe/version'
+require 'styoe/configuration_resolver'
+require 'styoe/process_launcher'
 
-module Fire
+module Styoe
   class Launcher
     def initialize(config_resolver = nil, process_launcher = nil)
       @config_resolver  = config_resolver  || ConfigurationResolver.new
@@ -14,7 +14,7 @@ module Fire
         processes = Hash[*run_processes]
         @config_resolver.dump_pids(processes)
       rescue ConfigurationNotFound
-        $stderr.puts 'No configuration found. Are you sure you have created a .fire file?'
+        $stderr.puts 'No configuration found. Are you sure you have created a .engines file?'
         exit(1)
       end
     end

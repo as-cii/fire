@@ -1,7 +1,7 @@
 Feature: Applications closing
 
   Scenario: User closes open applications
-    Given a file named ".fire" with:
+    Given a file named ".engines" with:
     """
     test: 'ruby process.rb'
     """
@@ -14,6 +14,6 @@ Feature: Applications closing
 
     gets
     """
-     When I successfully run `fire`
-      And I successfully run `fire --stop`
+     When I successfully run `styoe`
+      And I successfully run `styoe --stop`
      Then a file named "closed" should exist

@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'fire/version'
+require 'styoe/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "fire"
-  spec.version       = Fire::VERSION
+  spec.name          = "styoe"
+  spec.version       = Styoe::VERSION
   spec.authors       = ["Antonio Scandurra"]
   spec.email         = ["as-cii@outlook.com"]
-  spec.description   = %q{Fire your engines.}
+  spec.description   = %q{Start your engines.}
   spec.summary       = spec.description
-  spec.homepage      = "https://github.com/as-cii/fire"
+  spec.homepage      = "https://github.com/as-cii/styoe"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

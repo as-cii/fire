@@ -1,13 +1,13 @@
-require 'fire'
+require 'styoe'
 
-describe Fire::Launcher do
-  let(:configuration_resolver) { instance_double(Fire::ConfigurationResolver) }
-  let(:process_launcher)       { instance_double(Fire::ProcessLauncher) }
+describe Styoe::Launcher do
+  let(:configuration_resolver) { instance_double(Styoe::ConfigurationResolver) }
+  let(:process_launcher)       { instance_double(Styoe::ProcessLauncher) }
   let(:processes)              { [ "app1", "app2", "app3" ] }
   let(:pids)                   { [ 1, 2, 3 ] }
   let(:running_processes)      { Hash[*processes.zip(pids).flatten] }
 
-  subject { Fire::Launcher.new(configuration_resolver, process_launcher) }
+  subject { Styoe::Launcher.new(configuration_resolver, process_launcher) }
 
   it "launches configuration processes and remembers open pids" do
     allow(configuration_resolver).to receive(:processes).and_return(processes)
