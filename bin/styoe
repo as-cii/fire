@@ -2,7 +2,7 @@
 
 require 'styoe'
 
-launcher = Styoe::Launcher.new
+launcher = Styoe::Launcher.build('.engines', '.engines.pids')
 
 case ARGV[0]
 when '--stop'

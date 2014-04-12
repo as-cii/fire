@@ -4,9 +4,16 @@ require 'styoe/process_launcher'
 
 module Styoe
   class Launcher
-    def initialize(config_resolver = nil, process_launcher = nil)
-      @config_resolver  = config_resolver  || ConfigurationResolver.new
-      @process_launcher = process_launcher || ProcessLauncher.new
+    def initialize(config_resolver, process_launcher)
+      @config_resolver  = config_resolver
+      @process_launcher = process_launcher
+    end
+
+    def self.build(dot_file, pid_file)
+      config_resolver = Styoe::ConfigurationResolver.new(dot_file, pid_file, Styoe::DotFileManager.new)
+      process_launcher = Styoe::ProcessLauncher.new
+
+      self.new(config_resolver, process_launcher)
     end
 
     def start

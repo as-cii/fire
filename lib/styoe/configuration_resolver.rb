@@ -1,50 +1,35 @@
 require 'yaml'
+require 'styoe/dot_file_manager'
 
 module Styoe
-  DOT_FILE = '.engines'
-  PID_FILE = '.engines.pids'
-
-  class ConfigurationNotFound < StandardError; end
-
   class ConfigurationResolver
-    def initialize(options = {})
-      @stop_at = options[:stop_at] || '/'
+    def initialize(dot_filename, pid_filename, dot_file_manager)
+      @dot_filename = dot_filename
+      @pid_filename = pid_filename
+      @dot_file_manager = dot_file_manager
     end
 
-    def active_processes(path = PID_FILE)
-      raise ConfigurationNotFound if stop?(path)
-      return active_processes("../#{path}") unless File.exist?(path)
+    def active_processes
+      file_configuration = @dot_file_manager.find_recursively(@pid_filename)
 
-      values = parse_values(path)
-      File.delete(path)
-      values
+      File.delete(file_configuration.path)
+      parse_contents(file_configuration.contents)
     end
 
-    def processes(path = DOT_FILE)
-      raise ConfigurationNotFound if stop?(path)
-      return processes("../#{path}") unless File.exist?(path)
+    def processes
+      file_configuration = @dot_file_manager.find_recursively(@dot_filename)
 
-      parse_values(path)
+      parse_contents(file_configuration.contents)
     end
 
-    def dump_pids(pids, path = DOT_FILE)
-      raise ConfigurationNotFound if stop?(path)
-      return dump_pids(pids, "../#{path}") unless File.exist?(path)
-
-      file = File.open(path.gsub(DOT_FILE, PID_FILE), "w")
-      file.write(YAML.dump pids)
-      file.close
+    def dump_pids(pids)
+      @dot_file_manager.save_near(@dot_filename,
+                                  new_name: @pid_filename,
+                                  contents: pids.to_yaml)
     end
 
-    private
-
-    def parse_values(path)
-      contents = File.read(path)
+    def parse_contents(contents)
       YAML.load(contents).values
-    end
-
-    def stop?(path)
-      File.dirname(File.absolute_path path) == @stop_at
     end
   end
 end
