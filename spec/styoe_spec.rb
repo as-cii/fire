@@ -3,20 +3,22 @@ require 'styoe'
 describe Styoe::Launcher do
   let(:configuration_resolver) { instance_double(Styoe::ConfigurationResolver) }
   let(:process_launcher)       { instance_double(Styoe::ProcessLauncher) }
-  let(:processes)              { [ "app1", "app2", "app3" ] }
   let(:pids)                   { [ 1, 2, 3 ] }
-  let(:running_processes)      { Hash[*processes.zip(pids).flatten] }
 
   subject { Styoe::Launcher.new(configuration_resolver, process_launcher) }
 
   it "launches configuration processes and remembers open pids" do
-    allow(configuration_resolver).to receive(:processes).and_return(processes)
-    allow(configuration_resolver).to receive(:dump_pids)
-    stub_processes_launch
+    allow(configuration_resolver).to receive(:processes).and_return(["app1", "app2", "app3"])
+    allow(configuration_resolver).to receive(:dump_processes)
+    stub_processes_launch("app1" => 1, "app2" => 2, "app3" => 3)
 
     subject.start
 
-    expect(configuration_resolver).to have_received(:dump_pids).with(running_processes)
+    expect(configuration_resolver).to have_received(:dump_processes).with([
+      Styoe::RunningProcess.new("app1", 1),
+      Styoe::RunningProcess.new("app2", 2),
+      Styoe::RunningProcess.new("app3", 3)
+    ])
   end
 
   it 'stops active processes' do
@@ -30,8 +32,8 @@ describe Styoe::Launcher do
 
   private
 
-  def stub_processes_launch
-    processes.zip(pids).each do |process, pid|
+  def stub_processes_launch(processes)
+    processes.each do |process, pid|
       allow(process_launcher).to receive(:launch).with(process).and_return(pid)
     end
   end

@@ -1,3 +1,4 @@
+require 'styoe'
 require 'styoe/configuration_resolver'
 
 describe Styoe::ConfigurationResolver do
@@ -26,7 +27,11 @@ describe Styoe::ConfigurationResolver do
 
   it 'dumps active processes on the same path of dotfile' do
     allow(dot_file_manager).to receive(:save_near)
-    subject.dump_pids(application1: 1, application2: 2)
+    subject.dump_processes([
+      Styoe::RunningProcess.new("application1", 1),
+      Styoe::RunningProcess.new("application2", 2)
+    ])
+
     expect(dot_file_manager).to have_received(:save_near)
                                 .with(dot_filename,
                                       new_name: pid_filename,
@@ -36,16 +41,16 @@ describe Styoe::ConfigurationResolver do
 def sample_configuration
   <<-pids
 ---
-:application1: hello
-:application2: world
+application1: hello
+application2: world
   pids
 end
 
   def sample_pids
     <<-pids
 ---
-:application1: 1
-:application2: 2
+application1: 1
+application2: 2
     pids
   end
 

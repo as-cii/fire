@@ -4,9 +4,14 @@ require 'styoe'
 
 launcher = Styoe::Launcher.build('.engines', '.engines.pids')
 
-case ARGV[0]
-when '--stop'
-  launcher.stop
-else
-  launcher.start
+begin
+  case ARGV[0]
+  when '--stop'
+    launcher.stop
+  else
+    launcher.start
+  end
+rescue Styoe::ConfigurationNotFound
+  $stderr.puts 'No configuration found. Are you sure you have created a .engines file?'
+  exit(1)
 end

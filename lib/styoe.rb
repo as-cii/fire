@@ -3,6 +3,9 @@ require 'styoe/configuration_resolver'
 require 'styoe/process_launcher'
 
 module Styoe
+  class RunningProcess < Struct.new(:path, :pid)
+  end
+
   class Launcher
     def initialize(config_resolver, process_launcher)
       @config_resolver  = config_resolver
@@ -17,13 +20,8 @@ module Styoe
     end
 
     def start
-      begin
-        processes = Hash[*run_processes]
-        @config_resolver.dump_pids(processes)
-      rescue ConfigurationNotFound
-        $stderr.puts 'No configuration found. Are you sure you have created a .engines file?'
-        exit(1)
-      end
+      running_processes = run_processes!
+      @config_resolver.dump_processes(running_processes)
     end
 
     def stop
@@ -34,10 +32,11 @@ module Styoe
 
     private
 
-    def run_processes
-      @config_resolver.processes.map do |process|
-        [process, @process_launcher.launch(process)]
-      end.flatten
+    def run_processes!
+      @config_resolver.processes.map do |process_path|
+        pid = @process_launcher.launch(process_path)
+        RunningProcess.new(process_path, pid)
+      end
     end
   end
 end

@@ -22,14 +22,27 @@ module Styoe
       parse_contents(file_configuration.contents)
     end
 
-    def dump_pids(pids)
+    def dump_processes(processes)
+      processes_dump = ProcessesDumper.dump(processes)
+
       @dot_file_manager.save_near(@dot_filename,
                                   new_name: @pid_filename,
-                                  contents: pids.to_yaml)
+                                  contents: processes_dump)
     end
 
     def parse_contents(contents)
       YAML.load(contents).values
+    end
+  end
+
+  class ProcessesDumper
+    def self.dump(processes)
+      self.to_hash(processes).to_yaml
+    end
+
+    def self.to_hash(processes)
+      ary_processes = processes.map { |p| [p.path, p.pid] }.flatten
+      Hash[*ary_processes]
     end
   end
 end
